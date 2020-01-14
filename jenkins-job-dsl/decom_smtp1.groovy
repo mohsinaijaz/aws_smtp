@@ -28,7 +28,7 @@ pipelineJob('stages/decom_old_smtp1') {
                         }
                     }
                 }
-                scriptPath "enkinsfiles/decom_old_smtp1"
+                scriptPath "jenkinsfiles/decom_old_smtp1"
             }
         }
     }
