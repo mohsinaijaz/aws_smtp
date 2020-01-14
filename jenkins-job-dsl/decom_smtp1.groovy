@@ -21,7 +21,7 @@ pipelineJob('stages/decom_old_smtp1') {
                         remote {
                             name('origin')
                             credentials 'ssp-github'
-                            url 'https://github.cms.gov/CCSVDC-Infrastructure/image-services.git'
+                            url 'https://github.com/mohsinaijaz/aws_smtp.git'
                         }
                         extensions {
                            wipeWorkspace()
