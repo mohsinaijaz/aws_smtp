@@ -1,0 +1,71 @@
+pipeline {
+    agent any
+    environment {
+        AWS_ACCESS_KEY = credentials('aws_access_key')
+
+
+       AWS_DEFAULT_REGION = 'us-east-1'
+       AWS_ACCESS_KEY_ID = "${AWS_ACCESS_KEY_USR}"
+       AWS_SECRET_ACCESS_KEY = "${AWS_ACCESS_KEY_PSW}"
+   }
+   stages {
+         stage('Decommission old SMTP 1') {
+             steps {
+               sh './decom_smtp1.sh'
+             }
+         }
+
+         stage('Build New SMTP 1') {
+                 steps {
+                   sh './launch_smtp1.sh'
+                 } //steps
+         } // Build AWS AMI stage
+
+         stage('Test New SMTP 1') {
+                 steps {
+                    sh './test_smtp1.sh'
+                 } //steps
+         } // Attach ENI to New SMTP 1stage
+
+         stage('terminate old SMTP 1') {
+                 steps {
+                    sh './termin_smtp1.sh'
+                 } //steps
+         } // Test New SMTP 1 stage
+         stage('Decommission old SMTP 2') {
+             steps {
+               sh './decom_smtp2.sh'
+             }
+         }
+
+         stage('Build New SMTP 2') {
+                 steps {
+                   sh './launch_smtp2.sh'
+                 } //steps
+         } // Build AWS AMI stage
+
+         stage('Test New SMTP 2') {
+                 steps {
+                    sh './test_smtp2.sh'
+                 } //steps
+         } // Attach ENI to New SMTP 1stage
+
+         stage('terminate old SMTP 2') {
+                 steps {
+                    sh './termin_smtp2.sh'
+                 } //steps
+         }
+     }
+     post {
+         aborted {
+             script {
+                 echo 'Not Done'
+             }
+         }
+         success {
+           script {
+             echo 'DONE'
+             }
+         }
+     }
+ }

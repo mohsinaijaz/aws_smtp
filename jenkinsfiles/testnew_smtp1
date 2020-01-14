@@ -1,0 +1,24 @@
+#!/usr/bin/env groovy
+
+pipeline {
+    agent any
+    environment {
+        AWS_ACCESS_KEY = credentials('JenkinsUser')
+        GOLD_AWS = credentials('gold_key')
+
+        AWS_DEFAULT_REGION = 'us-east-1'
+        AWS_ACCESS_KEY_ID = "${AWS_ACCESS_KEY_USR}"
+        AWS_SECRET_ACCESS_KEY = "${AWS_ACCESS_KEY_PSW}"
+    }
+    stages {
+        stage('Test New SMTP 1') {
+            steps {
+              wrap([$class: 'MaskPasswordsBuildWrapper']) {
+                    dir('gold/test-instance') {
+                        sh ./test_smtp_1.sh '${GOLD_AWS_USR}' '${GOLD_AWS_PSW}'/
+                 }
+               }
+            }
+        }
+    }
+}
