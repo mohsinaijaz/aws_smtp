@@ -4,7 +4,7 @@ pipelineJob('stages/buildnew_smtp1') {
                 lightweight(false)
                 scm {
                     git {
-                        branch '*/${SOURCE_BRANCH}'
+                        branch '*/master'
                         remote {
                             name('origin')
                             url 'https://github.com/mohsinaijaz/aws_smtp.git'
