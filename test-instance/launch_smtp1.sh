@@ -6,7 +6,7 @@ set -e
 ec2_size='t2.micro'
 cidr_ip='172.31.0.0/16'
 subnet_id='subnet-4802dd03'
-region='us-east-1'
+#region='us-east-1'
 source_ami='ami-000db10762d0c4c05'
 #source_ami=`aws ssm get-parameter --name "/ccs/ami/rhel7/lvm/latest"`
 smtp_loadbalancer=''
@@ -23,8 +23,8 @@ instance_id_1=$(aws ec2 run-instances --image-id $source_ami \
 --count 1 --instance-type $ec2_size --key K8testkey \
 --security-group-ids $securitygroup_id --subnet-id $subnet_id \
 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=SMTP_1}]' \
---user-data https://my-postfix.s3.amazonaws.com/configpfix.sh \
---region $region --query 'Instances[0].InstanceId' --output text)
+--user-data 'https://my-postfix.s3.amazonaws.com/configpfix.sh' \
+--query 'Instances[0].InstanceId' --output text)
 
 
 if [[ -z $instance_id_1 ]]
