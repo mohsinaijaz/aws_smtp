@@ -36,10 +36,10 @@ fi
 echo "Instance ID is $instance_id_1"
 
 
-aws ec2 wait instance-status-ok --instance-ids $instance_id_1
+/usr/local/bin/aws ec2 wait instance-status-ok --instance-ids $instance_id_1
 
-aws ec2 attach-network-interface --network-interface-id $smtp_eni_1 --instance-id $instance_id_1 --device-index 1
+/usr/local/bin/aws ec2 attach-network-interface --network-interface-id $smtp_eni_1 --instance-id $instance_id_1 --device-index 1
 
-instance_ip_1=$(aws ec2 describe-instances --instance-ids $instance_id_1 \
+instance_ip_1=$(/usr/local/bin/aws ec2 describe-instances --instance-ids $instance_id_1 \
 --query 'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateIpAddress' --output text)
 echo "SMTP 1 IP is $instance_ip_1"
