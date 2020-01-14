@@ -17,10 +17,9 @@ pipelineJob('stages/decom_old_smtp1') {
                 lightweight(false)
                 scm {
                     git {
-                        branch '*/${SOURCE_BRANCH}'
+                        branch '*/master'
                         remote {
                             name('origin')
-                            credentials 'ssp-github'
                             url 'https://github.com/mohsinaijaz/aws_smtp.git'
                         }
                         extensions {
