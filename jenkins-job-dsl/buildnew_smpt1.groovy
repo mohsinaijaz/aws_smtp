@@ -7,7 +7,6 @@ pipelineJob('stages/buildnew_smtp1') {
                         branch '*/${SOURCE_BRANCH}'
                         remote {
                             name('origin')
-                            credentials 'ssp-github'
                             url 'https://github.com/mohsinaijaz/aws_smtp.git'
                         }
                         extensions {
