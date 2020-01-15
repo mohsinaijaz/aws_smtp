@@ -1,0 +1,61 @@
+def call(body) {
+    // evaluate the body block, and collect configuration into the object
+    def pipelineParams = [: ]
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = pipelineParams
+    body()
+
+    pipeline {
+        agent none
+        stages {
+            stage('Decommission SMTP 1') {
+                steps {
+                    script {
+                        decomp_result = build(
+                            job: 'stages/decom_old_smtp1',
+                        )
+                    }
+                }
+            }
+            stage('Build New SMTP 1') {
+                steps {
+                    script {
+                        build_result = build(
+                            job: 'stages/buildnew_smtp1',
+                         )
+                      }
+                  }
+              }
+                    stage('Test New SMTP 1') {
+                        steps {
+                            script {
+                                test_result = build(
+                                    job: 'stages/testnew_smtp1',
+                        )
+                    }
+                }
+            }
+            stage('terminate Old SMTP 1') {
+                steps {
+                    script {
+                        termmin_result = build(
+                            job: 'stages/termin_old_smtp1',
+                        )
+                    }
+                }
+            }
+        }
+    }
+            post {
+                aborted {
+                    script {
+                        echo 'Not Done'
+                    }
+                }
+                success {
+                  script {
+                    echo 'DONE'
+                    }
+                }
+          }
+    }
