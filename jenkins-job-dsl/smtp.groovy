@@ -12,6 +12,7 @@
               description 'Second SMPT ID to terminate'
               trim true
           }
+        }  
         definition {
             cpsScm {
                 lightweight(false)
