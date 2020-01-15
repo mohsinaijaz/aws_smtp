@@ -1,21 +1,17 @@
     pipelineJob("smtp-pipeline") {
-        triggers {
-              cron '0 20 * * *'
-        }
         parameters {
-            string {
-                name 'SNS_PARAM_PREFIX'
-                defaultValue null
-                description 'SNS SSM Parameter prefix'
-                trim true
-            }
-            string {
-                name 'SOURCE_BRANCH'
-                defaultValue 'master'
-                description 'Git branch of image-services to use'
-                trim true
-            }
-        }
+          string {
+              name 'OLD_SMPT_1'
+              defaultValue null
+              description 'First SMPT ID to terminate'
+              trim true
+          }
+          string {
+              name 'OLD_SMPT_2'
+              defaultValue null
+              description 'Second SMPT ID to terminate'
+              trim true
+          }
         definition {
             cpsScm {
                 lightweight(false)
