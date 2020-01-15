@@ -11,7 +11,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = "${AWS_ACCESS_KEY_PSW}"
     }
     stages {
-        stage('terminate Old SMTP 1') {
+        stage('Terminate old SMTP 1') {
             steps {
                 wrap([$class: 'MaskPasswordsBuildWrapper']) {
                     dir('test-instance') {
