@@ -9,4 +9,4 @@ smtp_delete_2=$2
 
 
 echo "Now Terminating SMTP 1"
-aws ec2 terminate-instances --instance-ids $smtp_delete_1
+/usr/local/bin/aws ec2 terminate-instances --instance-ids $smtp_delete_1

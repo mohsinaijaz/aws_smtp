@@ -13,4 +13,4 @@ instance_id_1=''
 ssh  -oStrictHostKeyChecking=no ec2-user@$instance_id_1 "./testmailq.sh"
 
 #attach to smtp LB
-aws elb register-instances-with-load-balancer --load-balancer-name $smtp_loadbalancer --instances $instance_id_1
+/usr/local/bin/aws elb register-instances-with-load-balancer --load-balancer-name $smtp_loadbalancer --instances $instance_id_1
