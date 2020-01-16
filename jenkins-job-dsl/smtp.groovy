@@ -11,8 +11,10 @@
               defaultValue null
               description 'Second SMPT ID to terminate'
               trim true
-          }
-          credentials credentialType: 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey', defaultValue: 'goldkey', description: '', name: 'superlogin', required: true
+            }
+        }
+        parameters {
+          credentials credentialType: 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey', defaultValue: 'goldkey', description: '', name: 'superuser', required: true
         }
         definition {
             cpsScm {
