@@ -12,6 +12,14 @@ pipelineJob('stages/decom_old_smtp1') {
             description 'Second SMPT ID to terminate'
             trim true
         }
+        credentials {
+          credentialType 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
+          name 'superuser'
+          defaultValue 'goldkey'
+          description 'creds to login to old smtp'
+          required true
+        }
+      }
         definition {
             cpsScm {
                 lightweight(false)
@@ -31,4 +39,3 @@ pipelineJob('stages/decom_old_smtp1') {
             }
         }
     }
-}
