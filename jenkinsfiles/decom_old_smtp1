@@ -13,10 +13,8 @@ pipeline {
     stages {
         stage('Decommission SMTP 1') {
             steps {
-                wrap([$class: 'MaskPasswordsBuildWrapper']) {
-                    dir('test-instance') {
-                        sh './decom_smtp1.sh' '${OLD_SMPT_1}' '${OLD_SMPT_2}' '${GOLD_AWS_USR}' '${GOLD_AWS_PSW}'/
-                    }
+                  dir('test-instance') {
+                    sh './decom_smtp1.sh' '${OLD_SMPT_1}' '${OLD_SMPT_2}' '${GOLD_AWS_USR}' '${GOLD_AWS_PSW}'/
                 }
             }
         }
