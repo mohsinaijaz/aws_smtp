@@ -4,7 +4,7 @@ pipeline {
     agent any
     environment {
         AWS_ACCESS_KEY = credentials('JenkinsUser')
-        GOLD_AWS = credentials('gold_key')
+        GOLD_AWS = credentials('goldkey')
 
         AWS_DEFAULT_REGION = 'us-east-1'
         AWS_ACCESS_KEY_ID = "${AWS_ACCESS_KEY_USR}"
