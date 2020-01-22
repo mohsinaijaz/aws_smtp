@@ -1,6 +1,8 @@
 #!/usr/bin/env groovy
 // Name of the Jenkins Node
-node("any") {
+
+pipeline {
+    agent any
     try {
         def AWS_ACCESS_KEY = credentials("JenkinsUser")
         def GOLD_AWS = credentials("goldkey")
