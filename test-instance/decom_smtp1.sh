@@ -20,10 +20,10 @@ echo "Removing $OLD_SMPT_1 from SMTP LB"
 
 #ssh to old smtp and check mail qu before removing the ENI
 
-ssh -tt -o StrictHostKeyChecking=no -i $gold_key ec2-user@$old_smtp_ip_1 "./checkmailq.sh"
+#ssh -tt -o StrictHostKeyChecking=no -i $gold_key ec2-user@$old_smtp_ip_1 "./checkmailq.sh"
 
-echo "Deatching SMTP from ENI 1"
-/usr/local/bin/aws ec2 detach-network-interface --attachment-id $smtp_eni_1
+#echo "Deatching SMTP from ENI 1"
+#/usr/local/bin/aws ec2 detach-network-interface --attachment-id $smtp_eni_1
 
 
 

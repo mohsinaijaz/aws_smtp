@@ -1,7 +1,7 @@
 pipelineJob('stages/termin_old_smtp1') {
     parameters {
         string {
-          name 'OLD_SMPT_1'
+          name 'OLD_SMTP_1'
           defaultValue null
           description 'First SMPT ID to terminate'
           trim true
