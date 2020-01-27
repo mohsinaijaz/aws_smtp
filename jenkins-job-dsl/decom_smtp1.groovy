@@ -6,12 +6,6 @@ pipelineJob('stages/decom_old_smtp1') {
             description 'First SMPT ID to terminate'
             trim true
         }
-        string {
-            name 'OLD_SMTP_2'
-            defaultValue null
-            description 'Second SMPT ID to terminate'
-            trim true
-        }
       }
         definition {
             cpsScm {
