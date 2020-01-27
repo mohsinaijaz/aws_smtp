@@ -7,12 +7,17 @@ smtp_loadbalancer='SMTP-PROD-Enterprise-V3-ELB'
 smtp_eni_1='eni-0331c5e11c70144db'
 smtp_eni_2='eni-096a0c47835b10ece'
 OLD_SMPT_1=$1
-OLD_SMPT_2=$2
+#OLD_SMPT_2=$2
 goldkey=$4
 
-old_smtp_ip_1=$(/usr/local/bin/aws ec2 describe-instances --instance-ids $OLD_SMPT_1 \
---query 'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateIpAddress' --output text)
 
+
+#
+#old_smtp_ip_1=$(/usr/local/bin/aws ec2 describe-instances --instance-ids $OLD_SMPT_1 \
+#--query 'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateIpAddress' --output text)
+#
+old_smtp_ip_1=$(/usr/local/bin/aws ec2 describe-instances --instance-ids $OLD_SMPT_1 \
+--query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
 
 echo "Removing $OLD_SMPT_1 from SMTP LB"
 /usr/local/bin/aws elb deregister-instances-from-load-balancer --load-balancer-name $smtp_loadbalancer --instances $OLD_SMPT_1
