@@ -18,9 +18,9 @@ pipeline {
                     sh """
                     set -e +x
                     SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $OLD_SMTP_1 \
-                      --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-                      echo $SMTP_IP
-                      """
+                    --query 'Reservations[*].Instances[*].PublicIpAddress' --output text);
+                    echo \$SMTP_IP
+                    """
               }
           }
       }
