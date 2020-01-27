@@ -11,7 +11,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = "${AWS_ACCESS_KEY_PSW}"
     }
     stages {
-      stage("Retrieve SMTP's IP Address New") {
+      stage("Retrieve SMTP's IP Address") {
           steps {
             script {
                 dir('test-instance') {
@@ -25,14 +25,17 @@ pipeline {
           }
       }
   }
-      stage("Retrieve SMTP's IP Address") {
+      stage("Removing from ELB") {
           steps {
             script {
                 dir('test-instance') {
                     sh """
-                    sh ./decom_smtp1.sh '${OLD_SMTP_1}' /
-                    SMTP_IP = sh script:script_string, returnStdout: true
-                    echo SMTP_IP
+                    set -e +x
+                    echo "Removing \$SMPT_IP from ELB"
+                    /usr/local/bin/aws elb deregister-instances-from-load-balancer \
+                    --load-balancer-name \$SMTP_ELB --instances \$OLD_SMTP_1;
+                    echo \$SMTP_ELB
+                    echo \$OLD_SMTP_1
                     """
               }
           }
