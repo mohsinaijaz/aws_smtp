@@ -14,6 +14,18 @@ pipeline {
       stage("Retrieve SMTP's IP Address") {
           steps {
             script {
+              sh """
+              set -e +x
+              smtp_ip=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $OLD_SMPT_1 \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+              echo $smtp_ip
+              """
+          }
+      }
+  }
+      stage("Retrieve SMTP's IP Address") {
+          steps {
+            script {
                 dir('test-instance') {
                     sh """
                     sh ./decom_smtp1.sh '${OLD_SMTP_1}' /
