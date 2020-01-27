@@ -48,10 +48,8 @@ pipeline {
                       withCredentials([sshUserPrivateKey(credentialsId: 'goldkey', keyFileVariable: 'sshkey', passphraseVariable: 'sshpassphrase', usernameVariable: 'sshusername')]) {
                           sh """
                           set -e +x
-                          echo "Checking mailq "
-                          ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@${SMTP_IP} "sudo bash -c '/root/ssm/inventory/ssmec2minioncheck.sh ${params.AWS_ACCOUNT_ID} ${params.SALT_ACCOUNT_NAME}'"
-                          ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@${params.SMTP_IP} "sudo bash -c '/root/ssm/inventory/iamvalidate.sh ${params.AWS_ACCOUNT_ID} > /dev/null 2>&1 >/root/ssm/inventory/${AWS_ACCOUNT_ID}.txt'"
-                          ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@${params.SMTP_IP} "sudo cat /root/ssm/inventory/${AWS_ACCOUNT_ID}.txt"
+                          echo "Checking mailq"
+                          ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@${SMTP_IP} "sudo date"
                           """
                       }
                   }
