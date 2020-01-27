@@ -15,10 +15,11 @@ pipeline {
           steps {
             script {
                 dir('test-instance') {
-                    sh ""
+                    sh """
                     sh ./decom_smtp1.sh '${OLD_SMTP_1}' /
                     //SMTP_IP = sh script:script_string, returnStdout: true
                     //println SMTP_IP
+                    """
               }
           }
       }
