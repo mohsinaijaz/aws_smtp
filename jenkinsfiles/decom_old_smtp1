@@ -11,7 +11,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = "${AWS_ACCESS_KEY_PSW}"
     }
     stages {
-      stage("Retrieve SMTP's IP Address") {
+      stage("Retrieve SMTP's IP Address New") {
           steps {
             script {
                 dir('test-instance') {
