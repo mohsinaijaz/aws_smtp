@@ -2,32 +2,32 @@
 // Name of the Jenkins Node
 node("master") {
     try {
-        def AWS_ACCESS_KEY = credentials("JenkinsUser")
-        def GOLD_AWS = credentials("goldkey")
+        // def AWS_ACCESS_KEY = credentials("JenkinsUser")
+        def GOLD_AWS = "goldkey"
         def AWS_DEFAULT_REGION = "us-east-1"
-        def AWS_ACCESS_KEY_ID = "${AWS_ACCESS_KEY_USR}"
-        def AWS_SECRET_ACCESS_KEY = "${AWS_ACCESS_KEY_PSW}"
+        // def AWS_ACCESS_KEY_ID = "${AWS_ACCESS_KEY_USR}"
+        // def AWS_SECRET_ACCESS_KEY = "${AWS_ACCESS_KEY_PSW}"
         def SMTP_ENI_1 = "eni-0331c5e11c70144db"
         // parameters
-        // properties([
-        //     parameters([
-        //         string(
-        //             name: "OLD_SMTP_1",
-        //             defaultValue: "",
-        //             description: "First SMTP ID to terminate"),
-        //         string(
-        //             name: "OLD_SMTP_2",
-        //             defaultValue: "",
-        //             description: "Second SMTP ID to terminate"),
-        //     ])
-        // ])
+        properties([
+            parameters([
+                string(
+                    name: "OLD_SMTP_1",
+                    defaultValue: "",
+                    description: "First SMTP ID to terminate"),
+                string(
+                    name: "OLD_SMTP_2",
+                    defaultValue: "",
+                    description: "Second SMTP ID to terminate"),
+            ])
+        ])
         ansiColor("xterm") {
             //First Stage
             def SMTP_IP
             stage ("Retrieve SMTP's IP Address") {
                 dir("test-instance") {
-                    script_string """
-                    sh ./decom_smtp1.sh '${params.OLD_SMTP_1}' '${params.OLD_SMTP_2}'
+                    script_string = """
+                    sh ./decom_smtp1.sh '${OLD_SMTP_1}' '${OLD_SMTP_2}'
                     """
                     SMTP_IP = sh script:script_string, returnStdout: true
                     println SMTP_IP
