@@ -48,12 +48,13 @@ pipeline {
                       withCredentials([sshUserPrivateKey(credentialsId: 'goldkey', keyFileVariable: 'sshkey', passphraseVariable: 'sshpassphrase', usernameVariable: 'sshusername')]) {
                           sh """
                           set -e +x
+                          echo "Checking mailq"
                           SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $OLD_SMTP_1 \
                           --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
                           ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP << EOF
                           for i in {1..100}; do
                           mailq=`mailq | grep "MAILER"`
-                          if [[ $mailq ]]
+                          if [[ \$mailq ]]
                           then
                               echo "queue not empty trying again"
                               echo "Retrying..."; sleep 15;
