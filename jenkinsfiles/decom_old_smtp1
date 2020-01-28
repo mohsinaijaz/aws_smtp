@@ -63,8 +63,8 @@ pipeline {
                               break;
                           fi
                           done
-                          exit "\$STATUS"
-                          echo "\$?"
+                          exit \$STATUS
+                          echo \$?
                           """
                    }
                 }
