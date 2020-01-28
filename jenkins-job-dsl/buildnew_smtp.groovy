@@ -1,18 +1,4 @@
-pipelineJob('stages/testnew_smtp1') {
-    parameters {
-        string {
-            name 'New_SMPT'
-            defaultValue ""
-            description 'New SMTP ID'
-            trim true
-        }
-        string {
-            name 'SMTP_ELB'
-            defaultValue 'SMTP-PROD-Enterprise-V3-ELB'
-            description 'SMTP ELB'
-            trim true
-        }
-      }
+pipelineJob('stages/buildnew_smtp') {
         definition {
             cpsScm {
                 lightweight(false)
@@ -28,7 +14,7 @@ pipelineJob('stages/testnew_smtp1') {
                         }
                     }
                 }
-                scriptPath "jenkinsfiles/testnew_smtp1"
-            }
+                scriptPath "jenkinsfiles/buildnew_smtp"
         }
     }
+}

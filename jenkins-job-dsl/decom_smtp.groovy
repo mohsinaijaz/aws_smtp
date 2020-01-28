@@ -1,4 +1,4 @@
-pipelineJob('stages/decom_old_smtp1') {
+pipelineJob('stages/decom_old_smtp') {
     parameters {
         string {
             name 'OLD_SMTP'
@@ -34,7 +34,7 @@ pipelineJob('stages/decom_old_smtp1') {
                         }
                     }
                 }
-                scriptPath "jenkinsfiles/decom_old_smtp1"
+                scriptPath "jenkinsfiles/decom_old_smtp"
             }
         }
     }

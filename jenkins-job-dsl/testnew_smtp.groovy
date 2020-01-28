@@ -1,11 +1,18 @@
-pipelineJob('stages/termin_old_smtp1') {
+pipelineJob('stages/testnew_smtp') {
     parameters {
         string {
-          name 'OLD_SMTP'
-          defaultValue ""
-          description 'First SMPT ID to terminate'
-          trim true
+            name 'New_SMPT'
+            defaultValue ""
+            description 'New SMTP ID'
+            trim true
         }
+        string {
+            name 'SMTP_ELB'
+            defaultValue 'SMTP-PROD-Enterprise-V3-ELB'
+            description 'SMTP ELB'
+            trim true
+        }
+      }
         definition {
             cpsScm {
                 lightweight(false)
@@ -21,8 +28,7 @@ pipelineJob('stages/termin_old_smtp1') {
                         }
                     }
                 }
-                scriptPath "jenkinsfiles/termin_old_smtp1"
+                scriptPath "jenkinsfiles/testnew_smtp"
             }
         }
     }
-}
