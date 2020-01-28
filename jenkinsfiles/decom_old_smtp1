@@ -59,7 +59,7 @@ pipeline {
                               echo "Retrying..."; sleep 15;
                           else
                               echo "queue empty"
-                              STATUS=13
+                              STATUS=0
                               break;
                           fi
                           done
