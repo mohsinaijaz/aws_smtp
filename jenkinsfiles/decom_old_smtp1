@@ -51,6 +51,7 @@ pipeline {
                           SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $OLD_SMTP_1 \
                           --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
                           ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP << EOF
+                          STATUS=1
                           for i in {1..100}; do
                           if [ ! -z "\$(mailq | grep 'MAILER')" ]
                           then
@@ -58,10 +59,12 @@ pipeline {
                               echo "Retrying..."; sleep 15;
                           else
                               echo "queue empty"
+                              STATUS=1
                               break;
                           fi
                           done
-                          EOF"""
+                          exit \$STATUS
+                          """
                    }
                 }
              }
