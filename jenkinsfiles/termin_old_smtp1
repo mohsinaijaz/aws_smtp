@@ -15,7 +15,9 @@ pipeline {
                 script {
                     dir('test-instance') {
                         sh """
-                        sh ./termin_smtp1.sh '${OLD_SMTP_1}' /
+                        set -e +x
+                        echo "Now Terminating SMTP 1"
+                        /usr/local/bin/aws ec2 terminate-instances --instance-ids \$OLD_SMTP_1
                         """
                     }
                 }

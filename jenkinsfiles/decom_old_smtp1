@@ -44,7 +44,6 @@ pipeline {
         stage('Decommission Old SMTP Server') {
           steps {
               script {
-                  retry(1){
                       withCredentials([sshUserPrivateKey(credentialsId: 'goldkey', keyFileVariable: 'sshkey', passphraseVariable: 'sshpassphrase', usernameVariable: 'sshusername')]) {
                           sh """
                           set -e +x
@@ -64,11 +63,10 @@ pipeline {
                           fi
                           done
                           EOF"""
-                      }
-                  }
-              }
-           }
-        }
+                   }
+                }
+             }
+         }
         stage("Remove ENI") {
             steps {
               script {
