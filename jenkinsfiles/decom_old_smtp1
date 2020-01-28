@@ -61,8 +61,7 @@ pipeline {
                               break;
                           fi
                           done
-                          EOF
-                          """
+                          EOF"""
                    }
                 }
              }
