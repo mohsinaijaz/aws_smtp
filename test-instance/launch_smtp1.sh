@@ -11,10 +11,8 @@ source_ami='ami-000db10762d0c4c05'
 #source_ami=`aws ssm get-parameter --name "/ccs/ami/rhel7/lvm/latest"`
 smtp_loadbalancer='SMTP-PROD-Enterprise-V3-ELB'
 securitygroup_id='sg-c832efba'
-smtp_eni_1='eni-0331c5e11c70144db'
-smtp_eni_2='eni-096a0c47835b10ece'
-#smtp_delete_1=$1
-#smtp_delete_2=$2
+SMTP_ENI_1='eni-0331c5e11c70144db'
+SMTP_ENI_2='eni-096a0c47835b10ece'
 
 
 #create SMTP 1 instance
@@ -38,7 +36,7 @@ echo "Instance ID is $instance_id_1"
 
 /usr/local/bin/aws ec2 wait instance-status-ok --instance-ids $instance_id_1
 
-/usr/local/bin/aws ec2 attach-network-interface --network-interface-id $smtp_eni_1 --instance-id $instance_id_1 --device-index 1
+/usr/local/bin/aws ec2 attach-network-interface --network-interface-id $SMTP_ENI_1 --instance-id $instance_id_1 --device-index 1
 
 instance_ip_1=$(/usr/local/bin/aws ec2 describe-instances --instance-ids $instance_id_1 \
 --query 'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateIpAddress' --output text)

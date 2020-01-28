@@ -6,12 +6,11 @@ pipelineJob('stages/testnew_smtp1') {
             description 'New SMTP 1 ID'
             trim true
         }
-        credentials {
-          credentialType 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
-          name 'superuser'
-          defaultValue 'goldkey'
-          description 'creds to login to old smtp'
-          required true
+        string {
+            name 'SMTP_ELB'
+            defaultValue 'SMTP-PROD-Enterprise-V3-ELB'
+            description 'SMTP ELB'
+            trim true
         }
       }
         definition {

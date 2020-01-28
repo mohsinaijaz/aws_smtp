@@ -4,7 +4,6 @@ pipeline {
     agent any
     environment {
         AWS_ACCESS_KEY = credentials('JenkinsUser')
-        GOLD_AWS = credentials('goldkey')
 
         AWS_DEFAULT_REGION = 'us-east-1'
         AWS_ACCESS_KEY_ID = "${AWS_ACCESS_KEY_USR}"
@@ -15,8 +14,31 @@ pipeline {
             steps {
               script {
                     dir('test-instance') {
+                      withCredentials([sshUserPrivateKey(credentialsId: 'goldkey', keyFileVariable: 'sshkey', passphraseVariable: 'sshpassphrase', usernameVariable: 'sshusername')]) {
                       sh """
-                      sh ./test_smtp1.sh
+                      ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP << EOF
+                      echo “Testing 123” | mailx -v -s “Test Email” -r “test@aws.cms.gov”  “aijaz_mohsin@bah.com”
+                     if [ "$(mailq | grep 'empty' &>/dev/null; echo $?)" == 0 ]; then
+                       echo "mail queue empty"
+                       exit 0
+                     else
+                       echo "mail queue NOT empty"
+                       exit 1
+                     fi
+                     exit
+                     EOF"""
+                   }
+                }
+             }
+          }
+       }
+        stage('Attach to ELB') {
+            steps {
+              script {
+                    dir('test-instance') {
+                      sh """
+                      ELB=\$(/usr/local/bin/aws elb register-instances-with-load-balancer \
+                      --load-balancer-name $SMTP_ELB --instances $instance_id_1)
                       """
                    }
                 }
