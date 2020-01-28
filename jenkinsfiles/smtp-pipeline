@@ -1,7 +1,7 @@
     pipeline {
         agent none
         stages {
-            stage('Decommission SMTP 1') {
+            stage('Decommission SMTP') {
                 steps {
                     script {
                         decomp_result = build(
@@ -10,7 +10,7 @@
                     }
                 }
             }
-            stage('Build New SMTP 1') {
+            stage('Build New SMTP') {
                 steps {
                     script {
                         build_result = build(
@@ -19,7 +19,7 @@
                       }
                   }
               }
-                    stage('Test New SMTP 1') {
+                    stage('Test New SMTP') {
                         steps {
                             script {
                                 test_result = build(
@@ -28,7 +28,7 @@
                     }
                 }
             }
-            stage('Terminate old SMTP 1') {
+            stage('Terminate old SMTP') {
                 steps {
                     script {
                         termmin_result = build(
