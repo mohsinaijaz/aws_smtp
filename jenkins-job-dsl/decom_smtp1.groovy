@@ -9,7 +9,7 @@ pipelineJob('stages/decom_old_smtp1') {
         string {
             name 'SMTP_ENI'
             defaultValue null
-            description 'SMPT ENI ID'
+            description 'SMPT ENI Attachment ID'
             trim true
         }
         string {
