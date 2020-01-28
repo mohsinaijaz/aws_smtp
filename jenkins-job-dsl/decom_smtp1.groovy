@@ -1,15 +1,15 @@
 pipelineJob('stages/decom_old_smtp1') {
     parameters {
         string {
-            name 'OLD_SMTP_1'
+            name 'OLD_SMTP'
             defaultValue null
-            description 'First SMPT ID to terminate'
+            description 'SMPT ID to terminate'
             trim true
         }
         string {
-            name 'OLD_SMTP_ENI_1'
+            name 'SMTP_ENI'
             defaultValue null
-            description 'FIRST SMPT ENI ID'
+            description 'SMPT ENI ID'
             trim true
         }
         string {
