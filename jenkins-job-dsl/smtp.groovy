@@ -5,7 +5,7 @@
             defaultValue ""
             description 'SMPT ID to terminate'
             trim true
-        }
+          }
           string {
               name 'SMTP_ENI'
               defaultValue ""
