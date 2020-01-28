@@ -6,6 +6,18 @@ pipelineJob('stages/decom_old_smtp1') {
             description 'First SMPT ID to terminate'
             trim true
         }
+        string {
+            name 'OLD_SMTP_ENI_1'
+            defaultValue null
+            description 'ENI of FIRST SMPT to terminate'
+            trim true
+        }
+        string {
+            name 'SMTP_ELB'
+            defaultValue 'SMTP-PROD-Enterprise-V3-ELB'
+            description 'SMTP ELB'
+            trim true
+        }
       }
         definition {
             cpsScm {

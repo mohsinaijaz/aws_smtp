@@ -13,11 +13,13 @@ pipeline {
     stages {
         stage('Test New SMTP 1') {
             steps {
-              wrap([$class: 'MaskPasswordsBuildWrapper']) {
+              script {
                     dir('test-instance') {
-                        sh ./test_smtp1.sh '${GOLD_AWS_USR}' '${GOLD_AWS_PSW}'/
-                 }
-               }
+                      sh """
+                      sh ./test_smtp1.sh
+                      """
+                   }
+                }
             }
         }
     }
