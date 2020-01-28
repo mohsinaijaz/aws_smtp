@@ -32,8 +32,8 @@ pipeline {
                     sh """
                     set -e +x
                     echo "Removing \$SMPT_IP from ELB"
-                    /usr/local/bin/aws elb deregister-instances-from-load-balancer \
-                    --load-balancer-name \$SMTP_ELB --instances \$OLD_SMTP_1;
+                    ELB=\$(/usr/local/bin/aws elb deregister-instances-from-load-balancer \
+                    --load-balancer-name $SMTP_ELB --instances $OLD_SMTP_1)
                     echo \$SMTP_ELB
                     echo \$OLD_SMTP_1
                     """
