@@ -10,14 +10,14 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = "${AWS_ACCESS_KEY_PSW}"
     }
     stages {
-        stage('Terminate old SMTP 1') {
+        stage('Terminate old SMTP') {
             steps {
                 script {
                     dir('test-instance') {
                         sh """
                         set -e +x
-                        echo "Now Terminating SMTP 1"
-                        /usr/local/bin/aws ec2 terminate-instances --instance-ids \$OLD_SMTP_1
+                        echo "Now Terminating SMTP"
+                        /usr/local/bin/aws ec2 terminate-instances --instance-ids \$OLD_SMTP
                         """
                     }
                 }

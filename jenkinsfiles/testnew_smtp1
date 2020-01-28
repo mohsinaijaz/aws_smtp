@@ -16,7 +16,7 @@ pipeline {
                     dir('test-instance') {
                       withCredentials([sshUserPrivateKey(credentialsId: 'goldkey', keyFileVariable: 'sshkey', passphraseVariable: 'sshpassphrase', usernameVariable: 'sshusername')]) {
                       sh """
-                      SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $New_SMPT_1 \
+                      SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $New_SMPT \
                       --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
                       ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP '
                       echo “Testing 123” | mailx -v -s “Test Email” -r “test@aws.cms.gov”  “aijaz_mohsin@bah.com”
@@ -48,7 +48,7 @@ pipeline {
                       sh """
                       set -e +x
                       ELB=\$(/usr/local/bin/aws elb register-instances-with-load-balancer \
-                      --load-balancer-name $SMTP_ELB --instances $New_SMPT_1)
+                      --load-balancer-name $SMTP_ELB --instances $New_SMPT)
                       """
                    }
                 }

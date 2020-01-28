@@ -1,27 +1,15 @@
     pipelineJob("smtp-pipeline") {
       parameters {
         string {
-            name 'OLD_SMTP_1'
+            name 'OLD_SMTP'
             defaultValue null
-            description 'First SMPT ID to terminate'
+            description 'SMPT ID to terminate'
             trim true
         }
-        string {
-            name 'OLD_SMTP_2'
-            defaultValue null
-            description 'Second SMPT ID to terminate'
-            trim true
-          }
           string {
-              name 'OLD_SMTP_ENI_1'
+              name 'SMTP_ENI'
               defaultValue null
-              description 'First SMPT ENI ID'
-              trim true
-          }
-          string {
-              name 'OLD_SMTP_ENI_2'
-              defaultValue null
-              description 'Second SMPT ENI ID'
+              description 'SMPT ENI ID'
               trim true
           }
           string {

@@ -17,7 +17,7 @@ pipeline {
                 dir('test-instance') {
                     sh """
                     set -e +x
-                    SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $OLD_SMTP_1 \
+                    SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $OLD_SMTP \
                     --query 'Reservations[*].Instances[*].PublicIpAddress' --output text);
                     echo \$SMTP_IP
                     """
@@ -33,9 +33,9 @@ pipeline {
                     set -e +x
                     echo "Removing \$SMTP_IP from ELB"
                     ELB=\$(/usr/local/bin/aws elb deregister-instances-from-load-balancer \
-                    --load-balancer-name $SMTP_ELB --instances $OLD_SMTP_1)
+                    --load-balancer-name $SMTP_ELB --instances $OLD_SMTP)
                     echo \$SMTP_ELB
-                    echo \$OLD_SMTP_1
+                    echo \$OLD_SMTP
                     """
               }
           }
@@ -48,7 +48,7 @@ pipeline {
                           sh """
                           set -e +x
                           echo "Checking mailq"
-                          SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $OLD_SMTP_1 \
+                          SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $OLD_SMTP \
                           --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
                           ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP '
                           STATUS=1
@@ -77,7 +77,7 @@ pipeline {
                       sh """
                       set -e +x
                       echo "Removing ENI"
-                      ENI=\$(/usr/local/bin/aws ec2 detach-network-interface --attachment-id $SMTP_ENI_1)
+                      ENI=\$(/usr/local/bin/aws ec2 detach-network-interface --network-interface-id $SMTP_ENI)
                       """
                    }
                 }
