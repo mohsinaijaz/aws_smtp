@@ -47,7 +47,7 @@ pipeline {
                       sh """
                       set -e +x
                       ELB=\$(/usr/local/bin/aws elb register-instances-with-load-balancer \
-                      --load-balancer-name $SMTP_ELB --instances $instance_id_1)
+                      --load-balancer-name $SMTP_ELB --instances $New_SMPT_1)
                       """
                    }
                 }
