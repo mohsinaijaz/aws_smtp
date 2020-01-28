@@ -15,7 +15,7 @@ pipeline {
                 script {
                     dir('test-instance') {
                         sh """
-                        sh ./termin_smtp1.sh '${OLD_SMPT_1}' '${OLD_SMPT_2}' /
+                        sh ./termin_smtp1.sh '${OLD_SMTP_1}' /
                         """
                     }
                 }
