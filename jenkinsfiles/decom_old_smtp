@@ -33,7 +33,7 @@ pipeline {
                     set -e +x
                     echo "Removing $OLD_SMTP from ELB"
                     ELB=\$(/usr/local/bin/aws elb deregister-instances-from-load-balancer \
-                    --load-balancer-name $SMTP_ELB --instances $OLD_SMTP)
+                    --load-balancer-name $SMTP_ELB --instances $OLD_SMTP);
                     echo \$SMTP_ELB
                     echo \$OLD_SMTP
                     """
