@@ -16,17 +16,22 @@ pipeline {
                     dir('test-instance') {
                       withCredentials([sshUserPrivateKey(credentialsId: 'goldkey', keyFileVariable: 'sshkey', passphraseVariable: 'sshpassphrase', usernameVariable: 'sshusername')]) {
                       sh """
-                      ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP << EOF
+                      ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP '
                       echo “Testing 123” | mailx -v -s “Test Email” -r “test@aws.cms.gov”  “aijaz_mohsin@bah.com”
-                     if [ "$(mailq | grep 'empty' &>/dev/null; echo $?)" == 0 ]; then
-                       echo "mail queue empty"
-                       exit 0
-                     else
-                       echo "mail queue NOT empty"
-                       exit 1
-                     fi
-                     exit
-                     EOF"""
+                      STATUS=1
+                      for i in {1..100}; do
+                      if [ ! -z "\$(mailq | grep 'MAILER')" ]
+                      then
+                          echo "queue not empty trying again"
+                          echo "Retrying..."; sleep 15;
+                      else
+                          echo "queue empty"
+                          STATUS=0
+                          break;
+                      fi
+                      done
+                      exit \$STATUS'
+                      echo \$?
                    }
                 }
              }
