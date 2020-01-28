@@ -13,8 +13,12 @@ pipeline {
     stages {
         stage('Build New SMTP 1') {
             steps {
+              script {
                     dir('test-instance') {
+                        sh """
                         sh './launch_smtp1.sh'
+                        """
+                    }
                 }
             }
         }
