@@ -64,6 +64,7 @@ pipeline {
                           fi
                           done
                           exit \$STATUS
+                          EOF
                           echo \$?
                           """
                    }
