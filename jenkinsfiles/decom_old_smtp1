@@ -77,7 +77,7 @@ pipeline {
                       sh """
                       set -e +x
                       echo "Removing ENI"
-                      /usr/local/bin/aws ec2 detach-network-interface --attachment-id \$SMTP_ENI_1;
+                      ENI=\$(/usr/local/bin/aws ec2 detach-network-interface --attachment-id $SMTP_ENI_1)
                       """
                    }
                 }
