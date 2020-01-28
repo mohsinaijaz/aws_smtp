@@ -50,19 +50,22 @@ pipeline {
                           echo "Checking mailq"
                           SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $OLD_SMTP_1 \
                           --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-                          ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP << EOF
+                          ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP '
+                          STATUS=1
                           for i in {1..100}; do
-                          mailq=`mailq | grep "MAILER"`
-                          if [[ $mailq ]]
+                          if [ ! -z "\$(mailq | grep 'MAILER')" ]
                           then
                               echo "queue not empty trying again"
                               echo "Retrying..."; sleep 15;
                           else
                               echo "queue empty"
+                              STATUS=0
                               break;
                           fi
                           done
-                          EOF"""
+                          exit \$STATUS'
+                          echo \$?
+                          """
                    }
                 }
              }
