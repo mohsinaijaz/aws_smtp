@@ -10,7 +10,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = "${AWS_ACCESS_KEY_PSW}"
     }
     stages {
-        stage('Test New SMTP 1') {
+        stage('Test New SMTP') {
             steps {
               script {
                     dir('test-instance') {

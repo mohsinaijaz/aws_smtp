@@ -1,4 +1,11 @@
-pipelineJob('stages/buildnew_smtp1') {
+pipelineJob('stages/termin_old_smtp') {
+    parameters {
+        string {
+          name 'OLD_SMTP'
+          defaultValue ""
+          description 'First SMPT ID to terminate'
+          trim true
+        }
         definition {
             cpsScm {
                 lightweight(false)
@@ -14,7 +21,8 @@ pipelineJob('stages/buildnew_smtp1') {
                         }
                     }
                 }
-                scriptPath "jenkinsfiles/buildnew_smtp1"
+                scriptPath "jenkinsfiles/termin_old_smtp"
+            }
         }
     }
 }

@@ -5,7 +5,7 @@
                 steps {
                     script {
                         decomp_result = build(
-                            job: 'stages/decom_old_smtp1',
+                            job: 'stages/decom_old_smtp',
                         )
                     }
                 }
@@ -14,7 +14,7 @@
                 steps {
                     script {
                         build_result = build(
-                            job: 'stages/buildnew_smtp1',
+                            job: 'stages/buildnew_smtp',
                          )
                       }
                   }
@@ -23,7 +23,7 @@
                         steps {
                             script {
                                 test_result = build(
-                                    job: 'stages/testnew_smtp1',
+                                    job: 'stages/testnew_smtp',
                         )
                     }
                 }
@@ -32,7 +32,7 @@
                 steps {
                     script {
                         termmin_result = build(
-                            job: 'stages/termin_old_smtp1',
+                            job: 'stages/termin_old_smtp',
                         )
                     }
                 }
