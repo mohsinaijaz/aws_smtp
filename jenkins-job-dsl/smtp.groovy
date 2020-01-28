@@ -2,13 +2,13 @@
       parameters {
         string {
             name 'OLD_SMTP'
-            defaultValue ''
+            defaultValue ""
             description 'SMPT ID to terminate'
             trim true
         }
           string {
               name 'SMTP_ENI'
-              defaultValue ''
+              defaultValue ""
               description 'SMPT ENI Attachment ID'
               trim true
           }
