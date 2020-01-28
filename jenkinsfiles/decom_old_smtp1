@@ -52,7 +52,7 @@ pipeline {
                           --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
                           ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP << EOF
                           for i in {1..100}; do
-                          if [[ \$(mailq | grep "MAILER") ]]
+                          if [ \$(mailq | grep "MAILER") ]
                           then
                               echo "queue not empty trying again"
                               echo "Retrying..."; sleep 15;
@@ -61,7 +61,8 @@ pipeline {
                               break;
                           fi
                           done
-                          EOF"""
+                          EOF
+                          """
                    }
                 }
              }
