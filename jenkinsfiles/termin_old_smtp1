@@ -4,7 +4,6 @@ pipeline {
     agent any
     environment {
         AWS_ACCESS_KEY = credentials('JenkinsUser')
-        GOLD_AWS = credentials('goldkey')
 
         AWS_DEFAULT_REGION = 'us-east-1'
         AWS_ACCESS_KEY_ID = "${AWS_ACCESS_KEY_USR}"
@@ -13,9 +12,11 @@ pipeline {
     stages {
         stage('Terminate old SMTP 1') {
             steps {
-                wrap([$class: 'MaskPasswordsBuildWrapper']) {
+                script {
                     dir('test-instance') {
-                        sh ./termin_smtp1.sh '${OLD_SMPT_1}' '${OLD_SMPT_2}' '${GOLD_AWS_USR}' '${GOLD_AWS_PSW}'/
+                        sh """
+                        sh ./termin_smtp1.sh '${OLD_SMPT_1}' '${OLD_SMPT_2}' /
+                        """
                     }
                 }
             }
