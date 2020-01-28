@@ -63,7 +63,6 @@ pipeline {
                               break;
                           fi
                           done
-                          EOF
                           exit \$STATUS'
                           echo \$?
                           """
