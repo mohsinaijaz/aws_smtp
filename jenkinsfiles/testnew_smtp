@@ -16,31 +16,47 @@ pipeline {
                     dir('test-instance') {
                       withCredentials([sshUserPrivateKey(credentialsId: 'goldkey', keyFileVariable: 'sshkey', passphraseVariable: 'sshpassphrase', usernameVariable: 'sshusername')]) {
                       sh """
+                      set -e +x
                       SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $NEW_SMTP \
                       --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
                       ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP '
-                      mail -s “Local Outbound SMTP Test” aijaz_mohsin@bah.com < /dev/null
-                      sleep 30
-                      STATUS=1
-                      for i in {1..20}; do
-                      if [ ! -z "\$(mailq | grep 'MAILER')" ]
-                      then
-                          echo "queue not empty trying again"
-                          echo "Retrying..."; sleep 15;
-                      else
-                          echo "queue empty"
-                          STATUS=0
-                          break;
-                      fi
-                      done
-                      exit \$STATUS'
-                      echo \$?
+                      echo “Testing 123” | mailx -v -s “Test Email” -r “test@aws.cms.gov”  “aijaz_mohsin@bah.com”
+                      sleep 30'
                       """
                    }
                 }
              }
           }
        }
+       stage('Check Mail Queue') {
+           steps {
+             script {
+                   dir('test-instance') {
+                     withCredentials([sshUserPrivateKey(credentialsId: 'goldkey', keyFileVariable: 'sshkey', passphraseVariable: 'sshpassphrase', usernameVariable: 'sshusername')]) {
+                     sh """
+                     set -e +x
+                     SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $NEW_SMTP \
+                     --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+                     ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP '
+                     STATUS=1
+                     for i in {1..20}; do
+                     if [ ! -z "\$(mailq | grep 'MAILER')" ]
+                     then
+                         echo "queue not empty trying again"
+                         echo "Retrying..."; sleep 15;
+                     else
+                         echo "queue empty"
+                         STATUS=0
+                         break;
+                     fi
+                     done
+                     exit \$STATUS'
+                     echo \$?
+                     """
+                  }
+               }
+           }
+       }//stage
         stage('Attach to ELB') {
             steps {
               script {
