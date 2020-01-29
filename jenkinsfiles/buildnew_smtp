@@ -4,7 +4,6 @@ pipeline {
     agent any
     environment {
         AWS_ACCESS_KEY = credentials('JenkinsUser')
-        GOLD_AWS = credentials('goldkey')
 
         AWS_DEFAULT_REGION = 'us-east-1'
         AWS_ACCESS_KEY_ID = "${AWS_ACCESS_KEY_USR}"
@@ -15,7 +14,7 @@ pipeline {
             steps {
               script {
                     dir('test-instance') {
-                        NEW_SMTP = sh (script: './launch_smtp1.sh \${SMTP_ENI_NET_ID}', returnStdout: true).trim()
+                        env.NEW_SMTP = sh (script: './launch_smtp1.sh \${SMTP_ENI_NET_ID}', returnStdout: true).trim()
                         echo "NEW_SMTP: ${NEW_SMTP}"
                     }
                 }
