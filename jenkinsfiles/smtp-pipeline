@@ -24,6 +24,7 @@
                                 string(name: 'SMTP_ENI_NET_ID', value: "${SMTP_ENI_NET_ID}")
                             ]
                          )
+                         NEW_SMTP = build_result.buildVariables.NEW_SMTP
                       }
                   }
               }
