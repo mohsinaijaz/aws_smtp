@@ -31,7 +31,7 @@ then
     exit 1
 fi
 
-echo "Instance ID is $instance_id"
+#echo "Instance ID is $instance_id"
 
 
 /usr/local/bin/aws ec2 wait instance-status-ok --instance-ids $instance_id
