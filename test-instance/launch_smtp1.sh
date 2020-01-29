@@ -16,7 +16,7 @@ SMTP_ENI_NET_ID=$1
 
 
 #create SMTP 1 instance
-echo "Creating New SMTP instance"
+#echo "Creating New SMTP instance"
 instance_id=$(/usr/local/bin/aws ec2 run-instances --image-id $source_ami \
 --count 1 --instance-type $ec2_size --key K8testkey \
 --security-group-ids $securitygroup_id --subnet-id $subnet_id \
@@ -31,14 +31,14 @@ then
     exit 1
 fi
 
-echo "Instance ID is $instance_id"
+#echo "Instance ID is $instance_id"
 
 
 /usr/local/bin/aws ec2 wait instance-status-ok --instance-ids $instance_id
 
-/usr/local/bin/aws ec2 attach-network-interface --network-interface-id $SMTP_ENI_NET_ID --instance-id $instance_id --device-index 1
+/usr/local/bin/aws ec2 attach-network-interface --network-interface-id $SMTP_ENI_NET_ID --instance-id $instance_id --device-index 1 > /dev/null 2>&1
 
-instance_ip=$(/usr/local/bin/aws ec2 describe-instances --instance-ids $instance_id \
---query 'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateIpAddress' --output text)
+#instance_ip=$(/usr/local/bin/aws ec2 describe-instances --instance-ids $instance_id \
+#--query 'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateIpAddress' --output text)
 #echo "SMTP IP is $instance_ip"
 echo $instance_id
