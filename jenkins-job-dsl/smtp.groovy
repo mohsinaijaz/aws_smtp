@@ -13,6 +13,12 @@
               trim true
           }
           string {
+            name 'SMTP_ENI_NET_ID'
+            defaultValue ""
+            description 'SMPT ENI Network interface ID'
+            trim true
+          }
+          string {
               name 'SMTP_ELB'
               defaultValue 'SMTP-PROD-Enterprise-V3-ELB'
               description 'SMTP ELB'
