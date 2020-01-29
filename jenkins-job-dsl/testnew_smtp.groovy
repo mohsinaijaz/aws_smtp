@@ -1,6 +1,6 @@
 pipelineJob('stages/testnew_smtp') {
     parameters {
-        string {
+      string {
             name 'NEW_SMTP'
             defaultValue ""
             description 'New SMTP ID'

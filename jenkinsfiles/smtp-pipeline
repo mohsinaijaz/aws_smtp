@@ -6,6 +6,11 @@
                     script {
                         decomp_result = build(
                             job: 'stages/decom_old_smtp',
+                            parameters: [
+                                string(name: 'OLD_SMTP', value: "${OLD_SMTP}"),
+                                string(name: 'SMTP_ENI', value: "${SMTP_ENI}"),
+                                string(name: 'SMTP_ELB', value: "${SMTP_ELB}")
+                            ]
                         )
                     }
                 }
