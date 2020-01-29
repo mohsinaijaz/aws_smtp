@@ -19,7 +19,7 @@ pipeline {
                       SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $NEW_SMTP \
                       --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
                       ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP '
-                      echo “Testing 123” | mailx -v -s “Test Email” -r “test@aws.cms.gov”  “aijaz_mohsin@bah.com”
+                      mail -s “Local Outbound SMTP Test” aijaz_mohsin@bah.com < /dev/null
                       sleep 30
                       STATUS=1
                       for i in {1..20}; do
