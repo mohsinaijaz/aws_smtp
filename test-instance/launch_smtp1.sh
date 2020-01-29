@@ -36,9 +36,9 @@ fi
 
 /usr/local/bin/aws ec2 wait instance-status-ok --instance-ids $instance_id
 
-/usr/local/bin/aws ec2 attach-network-interface --network-interface-id $SMTP_ENI_NET_ID --instance-id $instance_id --device-index 1 --quiet
+/usr/local/bin/aws ec2 attach-network-interface --network-interface-id $SMTP_ENI_NET_ID --instance-id $instance_id --device-index 1 > /dev/null 2>&1
 
-instance_ip=$(/usr/local/bin/aws ec2 describe-instances --instance-ids $instance_id \
---query 'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateIpAddress')
+#instance_ip=$(/usr/local/bin/aws ec2 describe-instances --instance-ids $instance_id \
+#--query 'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateIpAddress')
 #echo "SMTP IP is $instance_ip"
 echo $instance_id
