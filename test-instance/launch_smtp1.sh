@@ -40,5 +40,5 @@ echo "Instance ID is $instance_id"
 
 instance_ip=$(/usr/local/bin/aws ec2 describe-instances --instance-ids $instance_id \
 --query 'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateIpAddress' --output text)
-echo "SMTP IP is $instance_ip"
+#echo "SMTP IP is $instance_ip"
 echo $instance_id
