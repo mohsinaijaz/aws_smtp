@@ -16,10 +16,9 @@ pipeline {
               script {
                     dir('test-instance') {
                         sh """
-                        sh './launch_smtp1.sh' '${SMTP_ENI_NET_ID}'
+                        NEW_SMTP = sh (script: './launch_smtp1.sh' '${SMTP_ENI_NET_ID}', returnStdout: true).trim()
+                        echo "${NEW_SMTP}"    
                         """
-                        NEW_SMTP = sh script:script_string, returnStdout: true
-                        println NEW_SMTP
                     }
                 }
             }
