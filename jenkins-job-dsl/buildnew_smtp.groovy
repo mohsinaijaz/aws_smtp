@@ -1,9 +1,9 @@
 pipelineJob('stages/buildnew_smtp') {
     parameters {
           string {
-            name 'SMTP_ENI'
+            name 'SMTP_ENI_NET_ID'
             defaultValue ""
-            description 'SMPT ENI Attachment ID'
+            description 'SMPT ENI Network interface ID'
             trim true
           }
         }
