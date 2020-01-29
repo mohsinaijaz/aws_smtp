@@ -16,7 +16,7 @@ pipeline {
               script {
                     dir('test-instance') {
                         sh """
-                        sh './launch_smtp1.sh'
+                        sh './launch_smtp1.sh' '${SMTP_ENI}' 
                         """
                     }
                 }

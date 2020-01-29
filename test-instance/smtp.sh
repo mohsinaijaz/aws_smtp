@@ -42,7 +42,7 @@ echo "Creating New SMTP1 instance"
 instance_id_1=$(aws ec2 run-instances --image-id $source_ami \
 --count 1 --instance-type $ec2_size --key K8testkey \
 --security-group-ids $securitygroup_id --subnet-id $subnet_id \
---tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=SMTP_1}]' \
+--tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=SMTP_'$RANDOM'}]' \
 --user-data 'https://my-postfix.s3.amazonaws.com/configpfix.sh' \
 --region $region --query 'Instances[0].InstanceId' --output text)
 
