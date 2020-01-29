@@ -19,7 +19,6 @@ pipeline {
                       SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $NEW_SMTP \
                       --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
                       ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP '
-                      sudo yum install mailx -y
                       echo “Testing 123” | mailx -v -s “Test Email” -r “test@aws.cms.gov”  “aijaz_mohsin@bah.com”
                       sleep 30
                       STATUS=1
