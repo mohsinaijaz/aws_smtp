@@ -20,15 +20,22 @@
                     script {
                         build_result = build(
                             job: 'stages/buildnew_smtp',
+                            parameters: [
+                                string(name: 'SMTP_ENI_NET_ID', value: "${SMTP_ENI_NET_ID}")
+                            ]
                          )
                       }
                   }
               }
-                    stage('Test New SMTP') {
-                        steps {
-                            script {
-                                test_result = build(
-                                    job: 'stages/testnew_smtp',
+              stage('Test New SMTP') {
+                  steps {
+                      script {
+                          test_result = build(
+                              job: 'stages/testnew_smtp',
+                              parameters: [
+                                  string(name: 'NEW_SMTP', value: "${NEW_SMTP}"),
+                                  string(name: 'SMTP_ELB', value: "${SMTP_ELB}")
+                            ]
                         )
                     }
                 }
@@ -38,6 +45,9 @@
                     script {
                         termmin_result = build(
                             job: 'stages/termin_old_smtp',
+                            parameters: [
+                                string(name: 'OLD_SMTP', value: "${OLD_SMTP}")
+                            ]
                         )
                     }
                 }
