@@ -18,6 +18,8 @@ pipeline {
                         sh """
                         sh './launch_smtp1.sh' '${SMTP_ENI_NET_ID}'
                         """
+                        NEW_SMTP = sh script:script_string, returnStdout: true
+                        println NEW_SMTP
                     }
                 }
             }
