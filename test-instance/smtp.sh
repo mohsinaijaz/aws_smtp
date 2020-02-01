@@ -11,40 +11,42 @@ region='us-east-1'
 source_ami='ami-000db10762d0c4c05'
 #source_ami=`aws ssm get-parameter --name "/ccs/ami/rhel7/lvm/latest"`
 smtp_loadbalancer=''
-securitygroup_id='sg-c832efba'
+#securitygroup=( "sg-0b6b147433f57620f" "sg-c832efba" )
+#securitygroup=('default', 'Jenkins')
 smtp_eni_1='eni-0331c5e11c70144db'
 smtp_eni_2='eni-096a0c47835b10ece'
 smtp_delete_1=$1
 smtp_delete_2=$2
+instance_role='Name=S3fullaccess'
 
+echo $securitygroup
 
 #echo "Deatching SMTP ENI 1"
 #aws ec2 detach-network-interface --attachment-id $smtp_eni_1
 #sleep 60
 
 
-
-echo "Now Terminating SMTP 1"
-aws ec2 terminate-instances --instance-ids $smtp_delete_1
+#echo "Now Terminating SMTP 1"
+#/usr/local/bin/aws ec2 terminate-instances --instance-ids $smtp_delete_1
 
 #aws elb deregister-instances-from-load-balancer --load-balancer-name $smtp_loadbalancer --instances $smtp_delete_1
 
-echo "Now Terminating SMTP 2"
-aws ec2 terminate-instances --instance-ids $smtp_delete_2
-
+#echo "Now Terminating SMTP 2"
+#aws ec2 terminate-instances --instance-ids $smtp_delete_2
+#
 #aws elb deregister-instances-from-load-balancer --load-balancer-name $smtp_loadbalancer --instances $smtp_delete_2
 
-sleep 2m
+#sleep 2m
 
 
 #create SMTP 1 instance
 echo "Creating New SMTP1 instance"
-instance_id_1=$(aws ec2 run-instances --image-id $source_ami \
+instance_id_1=$(/usr/local/bin/aws ec2 run-instances --image-id $source_ami \
 --count 1 --instance-type $ec2_size --key K8testkey \
---security-group-ids $securitygroup_id --subnet-id $subnet_id \
---tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=SMTP_'$RANDOM'}]' \
---user-data 'https://my-postfix.s3.amazonaws.com/configpfix.sh' \
---region $region --query 'Instances[0].InstanceId' --output text)
+--security-group-ids "sg-0b6b147433f57620f" "sg-c832efba" --subnet-id $subnet_id  \
+--tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=SMTP123}]' \
+--region $region --iam-instance-profile $instance_role \
+--query 'Instances[0].InstanceId' --output text)
 
 
 if [[ -z $instance_id_1 ]]
@@ -58,46 +60,48 @@ fi
 echo "Instance ID is $instance_id_1"
 
 
-aws ec2 wait instance-status-ok --instance-ids $instance_id_1
+/usr/local/bin/aws ec2 wait instance-status-ok --instance-ids $instance_id_1
 
-aws ec2 attach-network-interface --network-interface-id $smtp_eni_1 --instance-id $instance_id_1 --device-index 1
+
+/usr/local/bin/aws ec2 attach-network-interface --network-interface-id $smtp_eni_1 --instance-id $instance_id_1 --device-index 1
 
 sleep 60
 
 #aws elb register-instances-with-load-balancer --load-balancer-name $smtp_loadbalancer --instances $instance_id_1
 
 
-instance_ip_1=$(aws ec2 describe-instances --instance-ids $instance_id_1 \
+instance_ip_1=$(/usr/local/bin/aws ec2 describe-instances --instance-ids $instance_id_1 \
 --query 'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateIpAddress' --output text)
 echo "SMTP 1 IP is $instance_ip_1"
 
 
-sleep 2m
-
-
-#create SMTP 2 instance
-echo "Creating New SMTP2 instance"
-instance_id_2=$(aws ec2 run-instances --image-id $source_ami \
---count 1 --instance-type $ec2_size --key K8testkey \
---security-group-ids $securitygroup_id \
---subnet-id $subnet_id --no-associate-public-ip-address \
---tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=SMTP_2}]' \
---user-data 'https://my-postfix.s3.amazonaws.com/configpfix.sh' \
---region $region --query 'Instances[0].InstanceId' --output text)
-
-if [[ -z $instance_id_2 ]]
-then
-    echo "ERROR. Unable to create SMTP 2"
-    exit 1
-fi
-
-#echo "Creating instance. Waiting..."
-echo "Instance ID is $instance_id_2"
-
-aws ec2 wait instance-status-ok --instance-ids $instance_id_2
-aws ec2 attach-network-interface --network-interface-id $smtp_eni_2 --instance-id $instance_id_2 --device-index 1
-#aws elb register-instances-with-load-balancer --load-balancer-name $smtp_loadbalancer --instances $instance_id_2
-
-instance_ip_2=$(aws ec2 describe-instances --instance-ids $instance_id_2 \
---query 'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateIpAddress' --output text)
-echo "SMTP 2 IP is $instance_ip_2"
+#sleep 2m
+#
+#
+##create SMTP 2 instance
+#echo "Creating New SMTP2 instance"
+#instance_id_2=$(aws ec2 run-instances --image-id $source_ami \
+#--count 1 --instance-type $ec2_size --key K8testkey \
+#--security-group-ids $securitygroup_id \
+#--subnet-id $subnet_id --no-associate-public-ip-address \
+#--tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=SMTP_2}]' \
+#--user-data 'https://my-postfix.s3.amazonaws.com/configpfix.sh' \
+#--region $region --query 'Instances[0].InstanceId' --output text)
+#
+#if [[ -z $instance_id_2 ]]
+#then
+#    echo "ERROR. Unable to create SMTP 2"
+#    exit 1
+#fi
+#
+##echo "Creating instance. Waiting..."
+#echo "Instance ID is $instance_id_2"
+#
+#aws ec2 wait instance-status-ok --instance-ids $instance_id_2
+#aws ec2 attach-network-interface --network-interface-id $smtp_eni_2 --instance-id $instance_id_2 --device-index 1
+##aws elb register-instances-with-load-balancer --load-balancer-name $smtp_loadbalancer --instances $instance_id_2
+#
+#instance_ip_2=$(aws ec2 describe-instances --instance-ids $instance_id_2 \
+#--query 'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateIpAddress' --output text)
+#echo "SMTP 2 IP is $instance_ip_2"
+#
