@@ -44,7 +44,7 @@ echo "Creating New SMTP1 instance"
 instance_id_1=$(/usr/local/bin/aws ec2 run-instances --image-id $source_ami \
 --count 1 --instance-type $ec2_size --key K8testkey \
 --security-group-ids "sg-0b6b147433f57620f" "sg-c832efba" --subnet-id $subnet_id  \
---tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=SMTP123}]' \
+--tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=SMTP_'$RANDOM'}]' \
 --region $region --iam-instance-profile $instance_role \
 --query 'Instances[0].InstanceId' --output text)
 
