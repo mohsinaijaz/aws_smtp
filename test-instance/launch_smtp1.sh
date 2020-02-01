@@ -13,7 +13,7 @@ smtp_loadbalancer='SMTP-PROD-Enterprise-V3-ELB'
 securitygroup_id='sg-c832efba'
 SMTP_ENI_NET_ID=$1
 
-
+#--user-data 'https://my-postfix.s3.amazonaws.com/configpfix.sh' \
 
 #create SMTP 1 instance
 #echo "Creating New SMTP instance"
@@ -21,7 +21,6 @@ instance_id=$(/usr/local/bin/aws ec2 run-instances --image-id $source_ami \
 --count 1 --instance-type $ec2_size --key K8testkey \
 --security-group-ids $securitygroup_id --subnet-id $subnet_id \
 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=SMTP_v3_'$RANDOM'}]' \
---user-data 'https://my-postfix.s3.amazonaws.com/configpfix.sh' \
 --region $region --query 'Instances[0].InstanceId' --output text)
 
 
