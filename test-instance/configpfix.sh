@@ -4,8 +4,6 @@ sudo yum install postfix -y
 
 sudo yum install mailx -y
 
-sudo su
-
 sudo cat > /etc/postfix/main.cf << 'EOL'
 queue_directory = /var/spool/postfix
 
