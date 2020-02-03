@@ -1,12 +1,10 @@
 #!/bin/bash
 
-sudo yum update -y
-
 sudo yum install postfix -y
 
 sudo yum install mailx -y
 
-cat > /etc/postfix/main.cf << 'EOL'
+sudo cat > /etc/postfix/main.cf << 'EOL'
 queue_directory = /var/spool/postfix
 
 command_directory = /usr/sbin
@@ -127,7 +125,7 @@ message_size_limit = 52428800
 EOL
 
 
-cat > /etc/postfix/master.cf << 'EOL'
+sudo cat > /etc/postfix/master.cf << 'EOL'
 #
 # Postfix master process configuration file.  For details on the format
 # of the file, see the master(5) manual page (command: "man 5 master").
@@ -179,7 +177,7 @@ anvil     unix  -       -       n       -       1       anvil
 scache    unix  -       -       n       -       1       scache
 EOL
 
-cat > /etc/postfix/header_checks << 'EOL'
+sudo cat > /etc/postfix/header_checks << 'EOL'
 
 # HEADER_CHECKS(5)                                              HEADER_CHECKS(5)
 #
@@ -191,7 +189,7 @@ EOL
 
 sudo systemctl restart postfix
 
-cat > /etc/sysconfig/network-scripts/ifcfg-eth1 << 'EOL'
+sudo cat > /etc/sysconfig/network-scripts/ifcfg-eth1 << 'EOL'
 DEVICE=eth1
 BOOTPROTO="dhcp"
 NM_CONTROLLED="no"
@@ -203,4 +201,4 @@ IPV6INIT="no"
 DEFROUTE="no"
 EOL
 
-ifup eth1
+sudo ifup eth1
