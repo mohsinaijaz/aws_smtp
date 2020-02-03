@@ -4,7 +4,7 @@ sudo yum install postfix -y
 
 sudo yum install mailx -y
 
-sudo cat > /etc/postfix/main.cf << 'EOL'
+sudo su cat > /etc/postfix/main.cf << 'EOL'
 queue_directory = /var/spool/postfix
 
 command_directory = /usr/sbin
@@ -125,7 +125,7 @@ message_size_limit = 52428800
 EOL
 
 
-sudo cat > /etc/postfix/master.cf << 'EOL'
+sudo su cat > /etc/postfix/master.cf << 'EOL'
 #
 # Postfix master process configuration file.  For details on the format
 # of the file, see the master(5) manual page (command: "man 5 master").
