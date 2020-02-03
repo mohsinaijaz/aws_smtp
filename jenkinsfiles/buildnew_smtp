@@ -28,7 +28,7 @@ pipeline {
                           sh """
                           SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $NEW_SMTP \
                           --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-                          scp -tt -o StrictHostKeyChecking=no configpfix.sh $sshkey $sshusername@\$SMTP_IP:"/tmp"
+                          scp -o StrictHostKeyChecking=no configpfix.sh $sshkey $sshusername@\$SMTP_IP:"/tmp"
                           ssh -tt -o StrictHostKeyChecking=no -i $sshkey $sshusername@\$SMTP_IP 'sh /home/ec2-user/test-instance/configpfix.sh'
                           """
                        }
