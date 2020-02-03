@@ -26,6 +26,7 @@ pipeline {
                     dir('test-instance') {
                         withCredentials([sshUserPrivateKey(credentialsId: 'goldkey', keyFileVariable: 'sshkey', passphraseVariable: 'sshpassphrase', usernameVariable: 'sshusername')]) {
                           sh """
+                          pwd
                           SMTP_IP=\$(/usr/local/bin/aws ec2 describe-instances --instance-ids $NEW_SMTP \
                           --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
                           echo "NEW_SMTP_IP: ${SMTP_IP}"
