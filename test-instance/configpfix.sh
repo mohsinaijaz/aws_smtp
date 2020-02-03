@@ -6,6 +6,8 @@ sudo yum install postfix -y
 
 sudo yum install mailx -y
 
+sudo -s
+
 cat > /etc/postfix/main.cf << 'EOL'
 queue_directory = /var/spool/postfix
 
@@ -189,7 +191,7 @@ cat > /etc/postfix/header_checks << 'EOL'
 /^Subject:/     WARN
 EOL
 
-sudo systemctl restart postfix
+systemctl restart postfix
 
 cat > /etc/sysconfig/network-scripts/ifcfg-eth1 << 'EOL'
 DEVICE=eth1
